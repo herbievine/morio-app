@@ -61,7 +61,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
           <div className="flex flex-col justify-center">
             <Link href="/notes" passHref>
               <div className="flex items-center font-bold text-neutral-300 cursor-pointer">
-                <Clipboard className="mt-1 md:mt-0 md:mr-2 h-5" />
+                <Clipboard className="mt-1 md:mt-0 md:mr-2" />
                 <p className="hidden md:block">Notes</p>
               </div>
             </Link>

@@ -26,7 +26,7 @@ const Page: React.FC<PageProps> = ({
         <div className="flex items-center">
           {loading && <Loader className="mr-6" />}
           <Link href="/write" passHref>
-            <div className="h-12 w-12 flex justify-center items-center bg-neutral-800 rounded-xl cursor-pointer">
+            <div className="p-2 md:p-4 flex justify-center items-center bg-neutral-800 rounded-md cursor-pointer">
               <Plus className="text-neutral-300" />
             </div>
           </Link>
