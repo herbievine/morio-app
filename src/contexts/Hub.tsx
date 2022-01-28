@@ -1,7 +1,6 @@
 import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 import contractAbi from "../config/abi.json";
-import { networks } from "../config/networks";
 import { useNetwork } from "../hooks/useNetwork";
 import { useSigner } from "../hooks/useSigner";
 import { Hub } from "../types/hub";
