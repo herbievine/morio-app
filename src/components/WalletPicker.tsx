@@ -28,7 +28,7 @@ const WalletPicker: React.FC<WalletPickerProps> = () => {
       <div className="mt-12 grid overflow-hidden grid-cols-2 auto-rows-auto gap-5">
         {providers.map(({ name, logo }) => (
           <div
-            className="py-4 flex flex-col justify-center items-center rounded-lg cursor-pointer bg-neutral-700"
+            className="py-4 flex flex-col justify-center items-center rounded-md cursor-pointer bg-neutral-700"
             key={name}
           >
             <Image src={logo} alt={name} height={36} width={36} />

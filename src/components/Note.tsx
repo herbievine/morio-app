@@ -18,7 +18,7 @@ const Note: React.FC<NoteProps> = ({
 
   return (
     <div
-      className="p-4 rounded-lg bg-neutral-800 cursor-pointer"
+      className="p-4 rounded-md bg-neutral-800 cursor-pointer"
       onClick={() => push(`/write?noteId=${noteId}`)}
     >
       <div className="flex justify-between items-center">

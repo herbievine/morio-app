@@ -32,7 +32,7 @@ const Page: React.FC<PageProps> = ({
           </Link>
         </div>
       </div>
-      <div className="h-full p-12">{component}</div>
+      <div className="h-full p-6">{component}</div>
     </div>
   );
 };

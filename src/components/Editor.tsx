@@ -54,10 +54,10 @@ const Editor: React.FC<EditorProps> = ({ onSave, onUpdate, note }) => {
       }}
     >
       {({ errors }) => (
-        <Form className="w-full h-full flex flex-col justify-start items-start rounded-lg bg-neutral-800">
+        <Form className="w-full h-full flex flex-col justify-start items-start rounded-md bg-neutral-800">
           <div className="w-full p-6 flex justify-between items-center border-b border-neutral-600">
             <Field
-              className={`px-3 py-2 font-bold rounded-lg bg-neutral-900 text-neutral-300 ${
+              className={`px-3 py-2 font-bold rounded-md bg-neutral-900 text-neutral-300 ${
                 errors.title && "border border-red-500"
               }`}
               id="title"
@@ -73,7 +73,7 @@ const Editor: React.FC<EditorProps> = ({ onSave, onUpdate, note }) => {
 
           <div className="w-full h-full p-6 flex flex-col justify-start items-center">
             <Field
-              className={`h-full w-full px-3 py-2 font-bold rounded-lg bg-neutral-900 text-neutral-300 ${
+              className={`h-full w-full px-3 py-2 font-bold rounded-md bg-neutral-900 text-neutral-300 ${
                 errors.content && "border border-red-500"
               }`}
               id="content"
@@ -87,7 +87,7 @@ const Editor: React.FC<EditorProps> = ({ onSave, onUpdate, note }) => {
                   `Note created ${dayjs(note.data.createdAt).fromNow()}`}
               </p>
               <button
-                className="px-3 py-2 mt-4 font-bold text-neutral-300 rounded-lg bg-neutral-900"
+                className="px-3 py-2 mt-4 font-bold text-neutral-300 rounded-md bg-neutral-900"
                 type="submit"
               >
                 Save
