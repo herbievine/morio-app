@@ -6,6 +6,7 @@ import HubProvider from "../contexts/Hub";
 import SignerProvider from "../contexts/Signer";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import NetworkProvider from "../contexts/Network";
 
 declare global {
   interface Window {
@@ -18,11 +19,13 @@ dayjs.extend(relativeTime);
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <SignerProvider>
-      <HubProvider>
-        <ModalProvider>
-          <Root component={<Component {...pageProps} />} />
-        </ModalProvider>
-      </HubProvider>
+      <NetworkProvider>
+        <HubProvider>
+          <ModalProvider>
+            <Root component={<Component {...pageProps} />} />
+          </ModalProvider>
+        </HubProvider>
+      </NetworkProvider>
     </SignerProvider>
   );
 };
