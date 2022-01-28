@@ -14,7 +14,9 @@ const Chains: NextPage<ChainsProps> = () => {
         <div className="flex justify-center items-start">
           <div className="w-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 auto-rows-auto gap-5">
             {networks
-              .filter((network) => process.env.NODE_ENV === network.environment)
+              .filter(
+                (network) => process.env.VERCEL_ENV === network.environment
+              )
               .sort((a, b) => (a.currency < b.currency ? -1 : 1))
               .map((network) => (
                 <Chain key={network.chainId} chain={network} />

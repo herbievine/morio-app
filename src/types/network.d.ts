@@ -5,7 +5,7 @@ export interface Network {
   logo: string;
   explorer: string;
   contractAddress: string;
-  environment: typeof process.env.NODE_ENV;
+  environment: "production" | "preview" | "development";
   metamaskChainPayload: MetamaskChainPayload;
 }
 
