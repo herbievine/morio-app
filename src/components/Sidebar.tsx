@@ -73,6 +73,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
         </div>
         {network && (
           <a
+            className="w-full"
             href={
               network.explorer +
               "address/" +
