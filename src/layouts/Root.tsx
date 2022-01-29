@@ -7,12 +7,19 @@ interface RootProps {
 }
 
 const Root: React.FC<RootProps> = ({ component }) => {
-  const { modal } = useModal();
+  const { modal, setModal } = useModal();
 
   return (
     <>
       {modal && (
-        <div className="w-screen h-screen absolute z-50 flex justify-center items-center">
+        <div
+          className="w-screen h-screen absolute z-50 flex justify-center items-center"
+          onClick={() => {
+            if (modal) {
+              setModal(null);
+            }
+          }}
+        >
           {modal}
         </div>
       )}

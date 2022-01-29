@@ -41,8 +41,6 @@ const Editor: React.FC<EditorProps> = ({
     }
   }, [note]);
 
-  useEffect(() => console.log(uploading), [uploading]);
-
   const initialValues: FormValues = {
     title,
     content,
