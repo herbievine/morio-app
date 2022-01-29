@@ -10,14 +10,18 @@ import { useHub } from "../hooks/useHub";
 import { ipfs } from "../lib/ipfs";
 import { useSigner } from "../hooks/useSigner";
 import { ethers } from "ethers";
+import { useModal } from "../hooks/useModal";
+import Transaction from "../components/Transaction";
 
 interface WriteProps {}
 
 const Write: NextPage<WriteProps> = () => {
   const [loading, setLoading] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [note, setNote] = useState<ExtendedNote>();
   const { hub } = useHub();
   const { signer } = useSigner();
+  const { setModal } = useModal();
   const { query } = useRouter();
 
   useEffect(() => {
@@ -51,6 +55,8 @@ const Write: NextPage<WriteProps> = () => {
   }, [hub, signer, query]);
 
   const saveNote = async (title: string, content: string) => {
+    setUploading(true);
+
     const payload: NoteContent = {
       id: v4(),
       title,
@@ -63,7 +69,10 @@ const Write: NextPage<WriteProps> = () => {
 
     const ipfsLink = `https://ipfs.infura.io:5001/api/v0/cat?arg=${path}`;
 
-    await hub.functions.createNote(ipfsLink);
+    const tx = await hub.functions.createNote(ipfsLink);
+
+    setModal(<Transaction tx={tx} />);
+    setUploading(false);
   };
 
   const updateNote = async (
@@ -71,6 +80,8 @@ const Write: NextPage<WriteProps> = () => {
     title: string,
     content: string
   ) => {
+    setUploading(true);
+
     const payload: NoteContent = {
       id,
       title,
@@ -83,14 +94,24 @@ const Write: NextPage<WriteProps> = () => {
 
     const ipfsLink = `https://ipfs.infura.io:5001/api/v0/cat?arg=${path}`;
 
-    await hub.functions.updateNote(noteId, ipfsLink);
+    const tx = await hub.functions.updateNote(noteId, ipfsLink);
+
+    setModal(<Transaction tx={tx} />);
+    setUploading(false);
   };
 
   return (
     <Page
       title="Write"
       loading={loading}
-      component={<Editor note={note} onSave={saveNote} onUpdate={updateNote} />}
+      component={
+        <Editor
+          note={note}
+          onSave={saveNote}
+          onUpdate={updateNote}
+          uploading={uploading}
+        />
+      }
     />
   );
 };

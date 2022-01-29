@@ -3,6 +3,7 @@ import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { ExtendedNote } from "../types/note";
 import dayjs from "dayjs";
+import Loader from "./Loader";
 
 interface FormValues {
   title: string;
@@ -18,12 +19,18 @@ const WriteNoteSchema = Yup.object().shape({
 });
 
 interface EditorProps {
+  note?: ExtendedNote;
+  uploading: boolean;
   onSave: (title: string, content: string) => void;
   onUpdate: (note: ExtendedNote, title: string, content: string) => void;
-  note?: ExtendedNote;
 }
 
-const Editor: React.FC<EditorProps> = ({ onSave, onUpdate, note }) => {
+const Editor: React.FC<EditorProps> = ({
+  note,
+  uploading,
+  onSave,
+  onUpdate,
+}) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
@@ -33,6 +40,8 @@ const Editor: React.FC<EditorProps> = ({ onSave, onUpdate, note }) => {
       setContent(note.data.content);
     }
   }, [note]);
+
+  useEffect(() => console.log(uploading), [uploading]);
 
   const initialValues: FormValues = {
     title,
@@ -45,11 +54,14 @@ const Editor: React.FC<EditorProps> = ({ onSave, onUpdate, note }) => {
       initialValues={initialValues}
       validationSchema={WriteNoteSchema}
       onSubmit={({ title, content }, actions) => {
-        if (note?.noteId) {
-          onUpdate(note, title, content);
-        } else {
-          onSave(title, content);
+        if (!uploading) {
+          if (note?.noteId) {
+            onUpdate(note, title, content);
+          } else {
+            onSave(title, content);
+          }
         }
+
         actions.setSubmitting(false);
       }}
     >
@@ -84,13 +96,15 @@ const Editor: React.FC<EditorProps> = ({ onSave, onUpdate, note }) => {
             <div className="w-full pt-2 flex justify-between items-center">
               <p className="text-sm font-bold text-neutral-500">
                 {note?.data &&
-                  `Note created ${dayjs(note.data.createdAt).fromNow()}`}
+                  `Created on ${dayjs(note.data.createdAt).format(
+                    "DD-MM-YY @ hh:mmA"
+                  )}`}
               </p>
               <button
-                className="px-3 py-2 mt-4 font-bold text-neutral-300 rounded-md bg-neutral-900"
+                className="w-24 px-3 py-2 mt-4 flex justify-center font-bold text-neutral-300 rounded-md bg-neutral-900"
                 type="submit"
               >
-                Save
+                {uploading ? <Loader /> : "Save"}
               </button>
             </div>
           </div>

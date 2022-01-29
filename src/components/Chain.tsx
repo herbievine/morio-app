@@ -10,15 +10,23 @@ interface ChainProps {
 const Chain: React.FC<ChainProps> = ({
   chain: { name, logo, currency, chainId, metamaskChainPayload },
 }) => {
-  const { signer } = useSigner();
+  const { signer, setSigner } = useSigner();
 
   return (
     <div
       className="p-4 rounded-md bg-neutral-800 cursor-pointer"
       onClick={async () => {
-        await signer.provider.send("wallet_addEthereumChain", [
-          metamaskChainPayload,
-        ]);
+        if (signer) {
+          await signer.provider.send("wallet_addEthereumChain", [
+            metamaskChainPayload,
+          ]);
+        } else {
+          await setSigner();
+
+          await signer?.provider?.send("wallet_addEthereumChain", [
+            metamaskChainPayload,
+          ]);
+        }
       }}
     >
       <div className="flex justify-between items-center">

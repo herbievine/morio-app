@@ -1,12 +1,12 @@
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { networks } from "../config/networks";
 import { useSigner } from "../hooks/useSigner";
 import { Network } from "../types/network";
 
 export type NetworkContextInterface = [
   network?: Network,
-  setNetwork?: React.Dispatch<React.SetStateAction<Network | undefined>>
+  setNetwork?: () => Promise<void>
 ];
 
 export const NetworkContext = React.createContext<NetworkContextInterface>([]);
@@ -16,21 +16,19 @@ const NetworkProvider: React.FC<{}> = ({ children }) => {
   const { reload } = useRouter();
   const { signer } = useSigner();
 
-  useEffect(() => {
+  const attemptSetNetwork = useCallback(async () => {
     if (signer) {
-      const getNetwork = async () => {
-        const { chainId } = await signer.provider.getNetwork();
+      const { chainId } = await signer.provider.getNetwork();
 
-        const network = networks.find(
-          (contract) => contract.chainId === chainId
-        );
+      const network = networks.find((contract) => contract.chainId === chainId);
 
-        setNetwork(network);
-      };
-
-      getNetwork();
+      setNetwork(network);
     }
-  }, [signer, network]);
+  }, [signer]);
+
+  useEffect(() => {
+    attemptSetNetwork();
+  }, [signer, attemptSetNetwork]);
 
   useEffect(() => {
     if (window.ethereum) {
@@ -41,7 +39,7 @@ const NetworkProvider: React.FC<{}> = ({ children }) => {
   }, [reload]);
 
   return (
-    <NetworkContext.Provider value={[network, setNetwork]}>
+    <NetworkContext.Provider value={[network, attemptSetNetwork]}>
       {children}
     </NetworkContext.Provider>
   );

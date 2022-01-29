@@ -1,14 +1,11 @@
 import { ethers } from "ethers";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import contractAbi from "../config/abi.json";
 import { useNetwork } from "../hooks/useNetwork";
 import { useSigner } from "../hooks/useSigner";
 import { Hub } from "../types/hub";
 
-export type HubContextInterface = [
-  hub?: Hub,
-  setHub?: React.Dispatch<React.SetStateAction<Hub | undefined>>
-];
+export type HubContextInterface = [hub?: Hub, setHub?: () => void];
 
 export const HubContext = React.createContext<HubContextInterface>([]);
 
@@ -17,7 +14,7 @@ const HubProvider: React.FC<{}> = ({ children }) => {
   const { network } = useNetwork();
   const { signer } = useSigner();
 
-  useEffect(() => {
+  const attemptSetHub = useCallback(() => {
     if (signer && network) {
       const contract: Hub = new ethers.Contract(
         network.contractAddress,
@@ -29,8 +26,14 @@ const HubProvider: React.FC<{}> = ({ children }) => {
     }
   }, [signer, network]);
 
+  useEffect(() => {
+    attemptSetHub();
+  }, [signer, network, attemptSetHub]);
+
   return (
-    <HubContext.Provider value={[hub, setHub]}>{children}</HubContext.Provider>
+    <HubContext.Provider value={[hub, attemptSetHub]}>
+      {children}
+    </HubContext.Provider>
   );
 };
 

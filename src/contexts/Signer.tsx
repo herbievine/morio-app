@@ -1,11 +1,11 @@
 import { ethers } from "ethers";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 type Signer = ethers.providers.JsonRpcSigner;
 
 export type SignerContextInterface = [
   signer?: Signer,
-  setSigner?: React.Dispatch<React.SetStateAction<Signer | undefined>>
+  setSigner?: () => Promise<void>
 ];
 
 export const SignerContext = React.createContext<SignerContextInterface>([]);
@@ -13,30 +13,26 @@ export const SignerContext = React.createContext<SignerContextInterface>([]);
 const SignerProvider: React.FC<{}> = ({ children }) => {
   const [signer, setSigner] = useState<Signer>();
 
-  const getSigner = async () => {
+  const attemptSetSigner = useCallback(async () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
 
     await provider.send("eth_requestAccounts", []);
 
     setSigner(provider.getSigner());
-  };
+  }, []);
 
   useEffect(() => {
     if (window.ethereum) {
-      getSigner();
+      attemptSetSigner();
 
       window.ethereum.on("accountsChanged", () => {
-        getSigner();
+        attemptSetSigner();
       });
     }
-  }, []);
-
-  // window.ethereum.on("accountsChanged", () => {
-  //   getSigner();
-  // });
+  }, [attemptSetSigner]);
 
   return (
-    <SignerContext.Provider value={[signer, setSigner]}>
+    <SignerContext.Provider value={[signer, attemptSetSigner]}>
       {children}
     </SignerContext.Provider>
   );

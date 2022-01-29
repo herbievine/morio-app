@@ -6,17 +6,14 @@ import Clipboard from "../assets/Clipboard";
 import Morio from "../assets/Morio";
 import Wallet from "../assets/Wallet";
 import { useHub } from "../hooks/useHub";
-import { useModal } from "../hooks/useModal";
 import { useNetwork } from "../hooks/useNetwork";
 import { useSigner } from "../hooks/useSigner";
-import WalletPicker from "./WalletPicker";
 
 interface SidebarProps {}
 
 const Sidebar: React.FC<SidebarProps> = () => {
   const [address, setAddress] = useState<string>();
-  const { setModal } = useModal();
-  const { signer } = useSigner();
+  const { signer, setSigner } = useSigner();
   const { network } = useNetwork();
   const { hub } = useHub();
 
@@ -47,8 +44,8 @@ const Sidebar: React.FC<SidebarProps> = () => {
           <div
             className="w-full my-6 p-2 md:p-4 flex justify-center items-center bg-neutral-800 rounded-md cursor-pointer"
             onClick={() => {
-              if (setModal && !signer) {
-                setModal(<WalletPicker />);
+              if (!signer) {
+                setSigner();
               }
             }}
           >
@@ -75,7 +72,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
           </div>
         </div>
         {network && (
-          <Link
+          <a
             href={
               network.explorer +
               "address/" +
@@ -83,7 +80,8 @@ const Sidebar: React.FC<SidebarProps> = () => {
               "?fromaddress=" +
               address
             }
-            passHref
+            target="_blank"
+            rel="noreferrer"
           >
             <div className="w-full p-2 md:p-4 flex justify-center items-center bg-neutral-800 rounded-md cursor-pointer">
               <Image
@@ -97,7 +95,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
                 {network.contractAddress.slice(38, 42)}
               </p>
             </div>
-          </Link>
+          </a>
         )}
       </div>
     </div>

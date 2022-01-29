@@ -4,17 +4,17 @@ import { SignerContextInterface } from "../contexts/Signer";
 
 interface UseSignerHook {
   signer: SignerContextInterface[0];
-  getSigner: SignerContextInterface[1];
+  setSigner: SignerContextInterface[1];
 }
 
 const useSigner = (): UseSignerHook => {
-  const [signer, getSigner] = useContext(SignerContext);
+  const [signer, setSigner] = useContext(SignerContext);
 
-  if (getSigner === undefined) {
+  if (setSigner === undefined) {
     throw new Error("useSigner must be initialized");
   }
 
-  return { signer, getSigner };
+  return { signer, setSigner };
 };
 
 export { useSigner };
