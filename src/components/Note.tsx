@@ -5,33 +5,32 @@ import { up } from "../lib/up";
 import type { ExtendedNote } from "../types/note";
 
 interface NoteProps {
-  note: ExtendedNote;
+  note?: ExtendedNote;
 }
 
-const Note: React.FC<NoteProps> = ({
-  note: {
-    noteId,
-    data: { title, content, updatedAt, createdAt },
-  },
-}) => {
+const Note: React.FC<NoteProps> = ({ note }) => {
   const { push } = useRouter();
 
   return (
     <div
-      className="p-4 rounded-md bg-neutral-800 cursor-pointer"
-      onClick={() => push(`/write?noteId=${noteId}`)}
+      className="p-4 rounded-md border border-neutral-700 cursor-pointer"
+      onClick={() =>
+        push(note?.noteId ? `/write?noteId=${note.noteId}` : "/write")
+      }
     >
       <div className="flex justify-between items-center">
-        <p className="font-bold text-neutral-300">{title}</p>
-        <p className="text-sm font-bold text-neutral-500">
-          {up(
-            updatedAt !== createdAt
-              ? dayjs(updatedAt).fromNow()
-              : dayjs(createdAt).fromNow()
-          )}
+        <p className="font-bold text-neutral-300 truncate">
+          {note?.data?.title
+            ? note?.data?.title
+            : "Seems like you don't have any notes"}
+        </p>
+        <p className="pl-4 whitespace-nowrap text-sm font-bold text-neutral-500">
+          {note?.data?.updatedAt && up(dayjs(note?.data?.updatedAt).fromNow())}
         </p>
       </div>
-      <p className="mt-2 text-sm text-neutral-400 truncate">{content}</p>
+      <p className="mt-2 text-sm text-neutral-400 truncate">
+        {note?.data?.content ? note?.data?.content : "Create one now"}
+      </p>
     </div>
   );
 };

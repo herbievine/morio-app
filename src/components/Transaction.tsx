@@ -14,7 +14,7 @@ const Transaction: React.FC<TransactionProps> = ({
   const { network } = useNetwork();
 
   return (
-    <div className="p-6 w-5/6 md:w-1/2 lg:w-1/3 xl:1/4 rounded-md bg-neutral-800">
+    <div className="p-6 w-5/6 md:w-1/2 lg:w-1/3 xl:1/4 rounded-md border border-neutral-700">
       <div className="flex items-center justify-between">
         <p className="font-bold text-neutral-300">
           Transaction submitted successfully
@@ -30,7 +30,7 @@ const Transaction: React.FC<TransactionProps> = ({
           x
         </p>
       </div>
-      <div className="mt-6 p-6 flex flex-col items-center rounded-md bg-neutral-900 text-neutral-300 font-bold">
+      <div className="mt-6 p-6 flex flex-col items-center rounded-md border border-neutral-700 text-neutral-300 font-bold">
         <a
           className="w-full mb-2"
           href={network.explorer + "tx/" + hash}

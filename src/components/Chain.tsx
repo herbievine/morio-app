@@ -1,7 +1,8 @@
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSigner } from "../hooks/useSigner";
 import type { Network } from "../types/network";
+import cn from "classnames";
 
 interface ChainProps {
   chain: Network;
@@ -10,11 +11,23 @@ interface ChainProps {
 const Chain: React.FC<ChainProps> = ({
   chain: { name, logo, currency, chainId, metamaskChainPayload },
 }) => {
+  const [signerChainId, setSignerChainId] = useState<number>();
   const { signer, setSigner } = useSigner();
+
+  const c = cn(
+    "p-4 rounded-md border border-neutral-700",
+    chainId !== signerChainId && "cursor-pointer"
+  );
+
+  useEffect(() => {
+    if (signer) {
+      signer.getChainId().then(setSignerChainId);
+    }
+  }, [signer]);
 
   return (
     <div
-      className="p-4 rounded-md bg-neutral-800 cursor-pointer"
+      className={c}
       onClick={async () => {
         if (signer) {
           await signer.provider.send("wallet_addEthereumChain", [
@@ -36,8 +49,13 @@ const Chain: React.FC<ChainProps> = ({
             {name} ({currency})
           </p>
         </div>
-        <p className="text-sm font-bold text-neutral-500">{chainId}</p>
+        <p className="pl-4 whitespace-nowrap text-sm font-bold text-neutral-500">
+          {chainId}
+        </p>
       </div>
+      <p className="mt-2 text-sm text-neutral-400 truncate">
+        {chainId === signerChainId ? "Connected" : "Connect"}
+      </p>
     </div>
   );
 };

@@ -64,11 +64,11 @@ const Editor: React.FC<EditorProps> = ({
       }}
     >
       {({ errors }) => (
-        <Form className="w-full h-full flex flex-col justify-start items-start rounded-md bg-neutral-800">
-          <div className="w-full p-6 flex justify-between items-center border-b border-neutral-600">
+        <Form className="w-full h-full flex flex-col justify-start items-start rounded-md border border-neutral-700">
+          <div className="w-full p-6 flex justify-between items-center border-b border-neutral-700">
             <Field
-              className={`px-3 py-2 font-bold rounded-md bg-neutral-900 text-neutral-300 ${
-                errors.title && "border border-red-500"
+              className={`px-3 py-2 font-bold rounded-md bg-neutral-900 border text-neutral-300 focus:outline-none ${
+                errors.title ? "border-red-500" : "border-neutral-700"
               }`}
               id="title"
               name="title"
@@ -83,7 +83,7 @@ const Editor: React.FC<EditorProps> = ({
 
           <div className="w-full h-full p-6 flex flex-col justify-start items-center">
             <Field
-              className={`h-full w-full px-3 py-2 font-bold rounded-md bg-neutral-900 text-neutral-300 ${
+              className={`h-full w-full px-3 py-2 font-bold rounded-md bg-neutral-900 border border-neutral-700 text-neutral-300 focus:outline-none ${
                 errors.content && "border border-red-500"
               }`}
               id="content"
@@ -99,7 +99,7 @@ const Editor: React.FC<EditorProps> = ({
                   )}`}
               </p>
               <button
-                className="w-24 px-3 py-2 mt-4 flex justify-center font-bold text-neutral-300 rounded-md bg-neutral-900"
+                className="w-24 px-3 py-2 mt-4 flex justify-center font-bold text-neutral-300 rounded-md bg-neutral-900 border border-neutral-700"
                 type="submit"
               >
                 {uploading ? <Loader /> : "Save"}

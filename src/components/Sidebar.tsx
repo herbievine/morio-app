@@ -42,7 +42,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
             </div>
           </Link>
           <div
-            className="w-full my-6 p-2 md:p-4 flex justify-center items-center bg-neutral-800 rounded-md cursor-pointer"
+            className="w-full my-6 p-2 md:p-4 flex justify-center items-center border border-neutral-700 rounded-md cursor-pointer"
             onClick={() => {
               if (!signer) {
                 setSigner();
@@ -84,7 +84,7 @@ const Sidebar: React.FC<SidebarProps> = () => {
             target="_blank"
             rel="noreferrer"
           >
-            <div className="w-full p-2 md:p-4 flex justify-center items-center bg-neutral-800 rounded-md cursor-pointer">
+            <div className="w-full p-2 md:p-4 flex justify-center items-center border border-neutral-700 rounded-md cursor-pointer">
               <Image
                 src={network.logo}
                 alt={network.name}

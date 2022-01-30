@@ -12,7 +12,7 @@ const Chains: NextPage<ChainsProps> = () => {
       title="Chains"
       component={
         <div className="flex justify-center items-start">
-          <div className="w-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 auto-rows-auto gap-5">
+          <div className="w-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 auto-rows-auto gap-6">
             {networks
               .filter(
                 ({ environment }) =>

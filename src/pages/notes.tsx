@@ -5,6 +5,7 @@ import { useHub } from "../hooks/useHub";
 import { useNetwork } from "../hooks/useNetwork";
 import { useSigner } from "../hooks/useSigner";
 import Page from "../layouts/Page";
+import { sort } from "../lib/sort";
 import { ExtendedNote, NoteContent } from "../types/note";
 
 interface NotesProps {}
@@ -42,15 +43,7 @@ const Notes: NextPage<NotesProps> = () => {
           });
         }
 
-        notesToLoad.sort((a, b) => {
-          return a.data.createdAt > b.data.createdAt
-            ? -1
-            : a.data.createdAt < b.data.createdAt
-            ? 1
-            : 0;
-        });
-
-        setNotes(notesToLoad);
+        setNotes(sort(notesToLoad, ["updatedAt", "asc"]));
         setLoading(false);
       };
 
@@ -68,7 +61,7 @@ const Notes: NextPage<NotesProps> = () => {
       component={
         <div className="flex justify-center items-start">
           {network && notes.length > 0 ? (
-            <div className="w-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 auto-rows-auto gap-5">
+            <div className="w-full grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 auto-rows-auto gap-6">
               {notes.map((note) => (
                 <Note key={note.contentId} note={note} />
               ))}

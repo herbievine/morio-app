@@ -7,9 +7,11 @@
 ### Todo
 
 - [x] Add modification
-- [ ] Add categories
-- [ ] Add pagination
-- [ ] More rigorous testing
+- [x] Set global loading
+- [ ] Add ghost cards for loading
+- [ ] Filters
+- [x] Dashboard
+- [ ] Add delete
 - [ ] Deploy on more networks
 
 ### License
