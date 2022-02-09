@@ -67,7 +67,7 @@ const Editor: React.FC<EditorProps> = ({
         <Form className="w-full h-full flex flex-col justify-start items-start rounded-md border border-neutral-700">
           <div className="w-full p-6 flex justify-between items-center border-b border-neutral-700">
             <Field
-              className={`px-3 py-2 font-bold rounded-md bg-neutral-900 border text-neutral-300 focus:outline-none ${
+              className={`px-3 py-2 w-full md:w-fit font-bold rounded-md bg-neutral-900 border text-neutral-300 focus:outline-none ${
                 errors.title ? "border-red-500" : "border-neutral-700"
               }`}
               id="title"
